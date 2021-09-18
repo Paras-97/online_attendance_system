@@ -2,46 +2,50 @@
 <html>
     <head>
         <style>
-            table {
-                border-collapse: collapse;
+            
+            #container {
+                margin: 0px auto;
+                width: 600px;
+                height: 450px;
+                border: 5px #333 solid;
             }
+            #imageElement {
+                width: 600px;
+                height: 450px;
+                background-color: #666;
+            }
+           
+           
             th {
-                background-color:green;
-                Color:white;
+                background-color:rgb(240, 153, 23);
+                Color: white;
             }
             th, td {
-                width:150px;
+                width:350px;
                 text-align:center;
                 border:1px solid black;
                 padding:5px
-              
-            }
-            .geeks {
-                border-right:hidden;
-            }
-            .gfg {
-                border-collapse:separate;
-                border-spacing:0 15px;
-            }
-            h1 {
-                color:green;
-            }
-            #container {
-                margin: 0px auto;
-                width: 500px;
-                height: 375px;
-                border: 10px #333 solid;
-            }
-            #imageElement {
-                width: 500px;
-                height: 375px;
-                background-color: #666;
-            }
         </style>
     </head>
     <body>
         <div id="container">
             <img src = "{{url_for('video_feed')}}" id = 'imageElement'>
+        </div>
+        <div style = "position:relative; left:300px; top:20px;">
+            
+            <table align="centre">
+            <tr>
+                <th>Online</th>
+                <th>Offline</th>
+                
+            </tr>
+            <tr>
+                <td>kaghsdkjhads</td>
+                <td>ashdkhaskjdhk</td>
+                
+            </tr>
+        </table>
+        </form>
         </div>
     </body>
 </html>
