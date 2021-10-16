@@ -1,5 +1,5 @@
 # Importing required libraries
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask.wrappers import Request, Response
 import numpy as np
 import cv2
@@ -11,9 +11,14 @@ import os
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
 camera = cv2.VideoCapture(0)
 model = load_model("saved_model/model.h5")
+online = {}
+offline = {}
+data = []
 
 def create_app():
-
+    online = {}
+    offline = {}
+    data = []
     def check_offline(online, results):
         if online == []:
             return list(results.values())
@@ -32,8 +37,7 @@ def create_app():
 
     def gen_frames():  
         results = {0:'Meet', 1:'Paras', 2:'Sahil'}
-        online = {}
-        offline = {}
+        
         max_val_ind = 0
         fa_img = np.zeros((1,224,224,3),dtype=np.float32)
         while True:
@@ -67,12 +71,15 @@ def create_app():
                     timestamp = get_timestamp()
                     online = {timestamp:on}
                     offline = {timestamp:off}
+                    data = [online, offline]
+
                     #print("Online: ", online)
                     #print("offline: ", offline)
                 ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
-                yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+                
+                yield b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n', data  # concat frame one by one and show result
+                
 
     app=Flask(__name__)
     @app.route('/')
@@ -81,7 +88,11 @@ def create_app():
     
     @app.route('/video_feed')
     def video_feed():
-        return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        return Response((i[0] for i in gen_frames()),   mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+    @app.route('/online_log')
+    def online_log():
+        return Response((i[1] for i in gen_frames()),   mimetype='multipart/x-mixed-replace; boundary=frame')
        
 
     return app

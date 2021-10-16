@@ -3,16 +3,16 @@
     <head>
         <style>
             
-            #container {
-                margin: 0px auto;
-                width: 600px;
-                height: 450px;
-                border: 5px #333 solid;
-            }
+            
             #imageElement {
-                width: 600px;
-                height: 450px;
-                background-color: #666;
+                width: 800px;
+                height: 600px;
+                background-color: rgb(252, 8, 8);
+            }
+            #frame {
+                width: 400px;
+                height: 600px;
+                background-color: rgb(255, 254, 254);
             }
            
            
@@ -28,24 +28,10 @@
         </style>
     </head>
     <body>
-        <div id="container">
-            <img src = "{{url_for('video_feed')}}" id = 'imageElement'>
+        <div>
+            <img src = "{{url_for('video_feed')}}" id = 'imageElement' align = 'left'>
         </div>
-        <div style = "position:relative; left:300px; top:20px;">
-            
-            <table align="centre">
-            <tr>
-                <th>Online</th>
-                <th>Offline</th>
-                
-            </tr>
-            <tr>
-                <td>kaghsdkjhads</td>
-                <td>ashdkhaskjdhk</td>
-                
-            </tr>
-        </table>
-        </form>
-        </div>
+        <iframe src="{{url_for('online_log')}}" title="Iframe Example" id="frame" align = "right"> </iframe>
+        
     </body>
 </html>
